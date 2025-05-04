@@ -19,6 +19,9 @@ var summaries = new[]
     "MESIsdasfas", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
+app.MapGet("/", () => "Welcome to the application!")
+   .WithName("GetRoot");
+
 app.MapGet("/weatherforecast", () =>
 {
     var forecast =  Enumerable.Range(1, 5).Select(index =>
