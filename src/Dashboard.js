@@ -6,7 +6,9 @@ const Dashboard = () => {
         { id: 1, accountNumber: 'RO87654321', currency: 'RON', balance: 58560, status: 'Inactive' },
         { id: 2, accountNumber: 'RO12345678', currency: 'USD', balance: 10756750, status: 'Active' },
         { id: 3, accountNumber: 'RO98765432', currency: 'EUR', balance: 8756756750, status: 'Active' },
-        { id: 4, accountNumber: 'RO12345678', currency: 'USD', balance: 10756750, status: 'Inactive' }
+        { id: 4, accountNumber: 'RO12345678', currency: 'USD', balance: 10756750, status: 'Inactive' },
+        { id: 5, accountNumber: 'RO12345678', currency: 'USD', balance: 10756750, status: 'Inactive' }, 
+        { id: 6, accountNumber: 'RO12345678', currency: 'USD', balance: 10756750, status: 'Inactive' } 
     ]);
 
     const handleTransfer = () => alert('Transfer Money clicked!');
