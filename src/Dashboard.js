@@ -3,10 +3,12 @@ import './styles.css';
 
 const Dashboard = () => {
     const [accounts] = useState([
-        { id: 1, accountNumber: 'RO87654321', currency: 'RON', balance: 5000, status: 'Active' },
-        { id: 2, accountNumber: 'RO12345678', currency: 'USD', balance: 1200, status: 'Active' },
-        { id: 3, accountNumber: 'RO98765432', currency: 'EUR', balance: 800, status: 'Active' }
+        { id: 1, accountNumber: 'RO87654321', currency: 'RON', balance: 500, status: 'Active' },
+        { id: 2, accountNumber: 'RO12345678', currency: 'USD', balance: 100, status: 'Active' },
+        { id: 3, accountNumber: 'RO98765432', currency: 'EUR', balance: 80, status: 'Active' }
     ]);
+
+
 
     const handleTransfer = () => alert('Transfer Money clicked!');
     const handleCreateAccount = () => alert('Create Account clicked!');
