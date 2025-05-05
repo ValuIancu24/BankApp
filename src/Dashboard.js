@@ -20,11 +20,11 @@ const Dashboard = () => {
     return (
         <div className="app">
             <header className="header">
-                <h1>BankApp</h1>
+                <h1>BankingApp</h1>
                 <button className="logout-btn">Logout</button>
             </header>
             <main className="main-content">
-                <h2>Welcome to Your BankApp Dashboard</h2>
+                <h2>Welcome to Your BankingApp Dashboard</h2>
                 <div className="action-buttons">
                     <button className="btn btn-blue" onClick={handleTransfer}>Transfer Money</button>
                     <button className="btn btn-green" onClick={handleCreateAccount}>Create Account</button>
