@@ -41,13 +41,13 @@ const Dashboard = () => {
                                     className="btn btn-blue"
                                     onClick={() => handleViewTransactions(account.id)}
                                 >
-                                    View Transactions
+                                    See Transactions
                                 </button>
                                 <button
                                     className="btn btn-gray"
                                     onClick={() => handleManageAccount(account.id)}
                                 >
-                                    Manage Account
+                                    Handle Account
                                 </button>
                             </div>
                         </div>
