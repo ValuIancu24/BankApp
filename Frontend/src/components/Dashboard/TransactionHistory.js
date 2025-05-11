@@ -7,34 +7,57 @@ const TransactionHistory = ({ accountId }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [filter, setFilter] = useState('all'); // all, important, incoming, outgoing
+  const [sortOrder, setSortOrder] = useState('desc'); // asc, desc
 
   useEffect(() => {
-    fetchTransactions();
+    if (accountId) {
+      fetchTransactions();
+    }
   }, [accountId]);
 
   const fetchTransactions = async () => {
     try {
+      setLoading(true);
       const data = await transactionService.getAccountTransactions(accountId);
       setTransactions(data);
+      setError('');
     } catch (err) {
       setError('Failed to load transactions');
+      console.error('Transaction fetch error:', err);
     } finally {
       setLoading(false);
     }
   };
 
   // Filter transactions based on selected filter
-  const filteredTransactions = transactions.filter(t => {
+  const filteredTransactions = transactions.filter(transaction => {
     switch (filter) {
       case 'important':
-        return t.isImportant;
+        return transaction.isImportant;
       case 'incoming':
-        return t.toAccountNumber === transactions.find(tx => tx.fromAccountId === accountId)?.fromAccountNumber;
+        // A transaction is incoming if this account is the recipient
+        return (
+          transaction.type === 'Deposit' || 
+          (transaction.toAccountId && transaction.toAccountId === accountId)
+        );
       case 'outgoing':
-        return t.fromAccountNumber === transactions.find(tx => tx.fromAccountId === accountId)?.fromAccountNumber;
+        // A transaction is outgoing if this account is the sender
+        return (
+          transaction.type === 'Withdrawal' || 
+          transaction.type === 'Transfer' || 
+          transaction.type === 'BillPayment' ||
+          (transaction.fromAccountId && transaction.fromAccountId === accountId)
+        );
       default:
         return true;
     }
+  });
+
+  // Sort transactions by date
+  const sortedTransactions = [...filteredTransactions].sort((a, b) => {
+    const dateA = new Date(a.createdAt).getTime();
+    const dateB = new Date(b.createdAt).getTime();
+    return sortOrder === 'desc' ? dateB - dateA : dateA - dateB;
   });
 
   // Mark transaction as important
@@ -43,7 +66,7 @@ const TransactionHistory = ({ accountId }) => {
       await transactionService.markTransactionAsImportant(transactionId);
       fetchTransactions();
     } catch (err) {
-      console.error('Failed to mark transaction as important');
+      console.error('Failed to mark transaction as important:', err);
     }
   };
 
@@ -60,16 +83,25 @@ const TransactionHistory = ({ accountId }) => {
 
   // Determine transaction direction and styling
   const getTransactionStyle = (transaction) => {
-    const isIncoming = transaction.toAccountNumber === 
-      transactions.find(t => t.fromAccountId === accountId)?.fromAccountNumber;
+    // Deposits and incoming transfers are considered incoming
+    const isIncoming = transaction.type === 'Deposit' || 
+                       (transaction.toAccountId && transaction.toAccountId === accountId);
     
     return {
       amountColor: isIncoming ? 'text-green-600' : 'text-red-600',
-      amountPrefix: isIncoming ? '+' : '-'
+      amountPrefix: isIncoming ? '+' : '-',
+      icon: isIncoming ? '↓' : '↑'
     };
   };
 
-  if (loading) return <div className="text-center p-4">Loading transactions...</div>;
+  // Toggle sort order
+  const toggleSortOrder = () => {
+    setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc');
+  };
+
+  if (loading && transactions.length === 0) {
+    return <div className="text-center p-4">Loading transactions...</div>;
+  }
 
   return (
     <div className="bg-white overflow-hidden shadow-lg rounded-lg">
@@ -79,17 +111,28 @@ const TransactionHistory = ({ accountId }) => {
             Transaction History
           </h3>
           
-          {/* Filter dropdown */}
-          <select
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            className="input-field w-40"
-          >
-            <option value="all">All Transactions</option>
-            <option value="important">Important Only</option>
-            <option value="incoming">Incoming</option>
-            <option value="outgoing">Outgoing</option>
-          </select>
+          <div className="flex space-x-2">
+            {/* Filter dropdown */}
+            <select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className="input-field"
+            >
+              <option value="all">All Transactions</option>
+              <option value="important">Important Only</option>
+              <option value="incoming">Incoming</option>
+              <option value="outgoing">Outgoing</option>
+            </select>
+            
+            {/* Sort order button */}
+            <button
+              onClick={toggleSortOrder}
+              className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+              title={sortOrder === 'desc' ? 'Newest first' : 'Oldest first'}
+            >
+              {sortOrder === 'desc' ? '↓' : '↑'}
+            </button>
+          </div>
         </div>
 
         {error && (
@@ -98,23 +141,26 @@ const TransactionHistory = ({ accountId }) => {
           </div>
         )}
 
-        {filteredTransactions.length === 0 ? (
+        {sortedTransactions.length === 0 ? (
           <p className="text-gray-500 text-center py-4">No transactions found</p>
         ) : (
           <div className="space-y-4">
-            {filteredTransactions.map(transaction => {
+            {sortedTransactions.map(transaction => {
               const style = getTransactionStyle(transaction);
               
               return (
                 <div 
                   key={transaction.id}
                   className={`p-4 rounded-lg border ${
-                    transaction.isImportant ? 'border-yellow-400' : 'border-gray-200'
+                    transaction.isImportant ? 'border-yellow-400 bg-yellow-50' : 'border-gray-200'
                   }`}
                 >
                   <div className="flex justify-between items-start">
                     <div>
-                      <p className="font-medium capitalize">{transaction.type}</p>
+                      <div className="flex items-center">
+                        <span className="mr-2">{style.icon}</span>
+                        <p className="font-medium capitalize">{transaction.type}</p>
+                      </div>
                       <p className="text-sm text-gray-500">{formatDate(transaction.createdAt)}</p>
                       {transaction.note && (
                         <p className="text-sm text-gray-600 mt-1">Note: {transaction.note}</p>
@@ -141,9 +187,17 @@ const TransactionHistory = ({ accountId }) => {
                       </button>
                     </div>
                     
-                    {transaction.toAccountNumber && (
+                    {transaction.type === 'Transfer' && (
                       <p className="text-sm text-gray-500">
-                        To: {transaction.toAccountNumber}
+                        {transaction.fromAccountId === accountId 
+                          ? `To: ${transaction.toAccountNumber}`
+                          : `From: ${transaction.fromAccountNumber}`}
+                      </p>
+                    )}
+                    
+                    {transaction.type === 'BillPayment' && (
+                      <p className="text-sm text-gray-500">
+                        Bill payment
                       </p>
                     )}
                   </div>

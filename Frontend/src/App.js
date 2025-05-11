@@ -5,6 +5,7 @@ import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import Dashboard from './components/Dashboard/Dashboard';
 import Profile from './components/Profile/Profile';
+import BillPayments from './components/Dashboard/BillPayments';
 import ProtectedRoute from './components/Common/ProtectedRoute';
 
 function App() {
@@ -27,6 +28,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bill-payments"
+            element={
+              <ProtectedRoute>
+                <BillPayments />
               </ProtectedRoute>
             }
           />
