@@ -1,7 +1,9 @@
+// Header component with navigation and user menu
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 
+// The Header provides navigation and user authentication controls
 const Header = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();

@@ -1,3 +1,4 @@
+// Transaction history component with filtering and sorting capabilities
 import React, { useState, useEffect } from 'react';
 import transactionService from '../../services/transactionService';
 
