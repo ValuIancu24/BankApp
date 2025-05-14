@@ -38,11 +38,7 @@ const accountService = {
   // Update spending limit for an account
   updateSpendingLimit: async (accountId, newLimit) => {
     try {
-      const response = await api.put(`/account/${accountId}/spending-limit`, newLimit, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      const response = await api.put(`/account/${accountId}/spending-limit`, { newLimit });
       return response.data;
     } catch (error) {
       throw new Error('Failed to update spending limit');

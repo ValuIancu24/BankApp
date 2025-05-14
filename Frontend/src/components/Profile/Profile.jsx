@@ -1,31 +1,15 @@
 // User profile management component
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ChangePassword from './ChangePassword';
 import Header from '../Common/Header';
+import { AuthContext } from '../../contexts/AuthContext';
 
 // This component handles user profile display and management
 const Profile = () => {
-  const [user, setUser] = useState(null);
+  const { user } = useContext(AuthContext);
   const [showChangePassword, setShowChangePassword] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
-  useEffect(() => {
-    // In a real app, we'd fetch user data from the API
-    // For now, we'll use data from localStorage
-    const fetchUserData = () => {
-      try {
-        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-        setUser(userData);
-      } catch (err) {
-        setError('Failed to load user data');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, []);
 
   if (loading) return <div className="text-center p-4">Loading...</div>;
   if (error) return <div className="text-red-500 text-center p-4">{error}</div>;

@@ -22,16 +22,6 @@ const transactionService = {
     }
   },
 
-  // Cancel a pending transaction
-  cancelTransaction: async (transactionId) => {
-    try {
-      const response = await api.post(`/transaction/${transactionId}/cancel`);
-      return response.data;
-    } catch (error) {
-      throw new Error('Failed to cancel transaction');
-    }
-  },
-
   // Mark a transaction as important
   markTransactionAsImportant: async (transactionId) => {
     try {

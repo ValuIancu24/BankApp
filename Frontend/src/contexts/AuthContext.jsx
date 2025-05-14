@@ -16,7 +16,6 @@ export const AuthProvider = ({ children }) => {
           const userData = await authService.getCurrentUser();
           setUser(userData);
         } catch (error) {
-          // Token is invalid or expired
           console.error('Authentication error:', error);
           localStorage.removeItem('token');
         }
@@ -30,9 +29,8 @@ export const AuthProvider = ({ children }) => {
     try {
       setAuthError(null);
       const response = await authService.login(username, password);
-      if (response && response.token) {
-        const userData = await authService.getCurrentUser();
-        setUser(userData);
+      if (response.user) {
+        setUser(response.user);
         return true;
       }
       return false;
