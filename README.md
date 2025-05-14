@@ -79,7 +79,7 @@ BankingApp is a comprehensive online banking solution that allows users to manag
 cd Backend/BankingApp.Api
 dotnet ef database update
 
-### Frontend Setup
+4 Frontend Setup
 -Navigate to the frontend directory:
 
 -bash
