@@ -79,20 +79,20 @@ BankingApp is a comprehensive online banking solution that allows users to manag
 cd Backend/BankingApp.Api
 dotnet ef database update
 
-🎨 Frontend Setup
-Navigate to the frontend directory:
+### Frontend Setup
+-Navigate to the frontend directory:
 
 bash
-Copy
-Edit
-cd Frontend
-Install dependencies:
+-Copy
+-Edit
+-cd Frontend
+-Install dependencies:
 
-bash
-Copy
-Edit
-npm install
-Start the development server:
+-bash
+-Copy
+-Edit
+-npm install
+-Start the development server:
 
 bash
 Copy
@@ -101,7 +101,7 @@ npm run dev
 The application will be available at:
 👉 http://localhost:5173
 
-🧪 Testing
+### Testing
 Backend Tests
 bash
 Copy
@@ -114,7 +114,7 @@ Copy
 Edit
 cd Frontend
 npm test
-🌐 API Documentation
+## API Documentation
 The API follows RESTful conventions with the following main endpoints:
 
 /api/auth – Authentication (login, register)
@@ -127,9 +127,9 @@ The API follows RESTful conventions with the following main endpoints:
 
 /api/billpayment – Bill payment endpoints
 
-📘 Detailed API documentation is available via Swagger UI when the backend is running in development mode.
+## Detailed API documentation is available via Swagger UI when the backend is running in development mode.
 
-📁 Project Structure
+### Project Structure
 csharp
 Copy
 Edit
