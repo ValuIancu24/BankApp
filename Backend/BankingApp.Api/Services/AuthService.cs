@@ -51,19 +51,19 @@ public class AuthService : IAuthService
             return (false, "CNP is already registered");
             
         // Create new user
-        var user = new User
-        {
-            Username = registerDto.Username,
-            PasswordHash = PasswordHelper.HashPassword(registerDto.Password),
-            FirstName = registerDto.FirstName,
-            LastName = registerDto.LastName,
-            Email = registerDto.Email,
-            CNP = registerDto.CNP,
-            City = registerDto.City,
-            BirthDate = registerDto.BirthDate,
-            PhoneNumber = registerDto.PhoneNumber,
-            IsActive = false // User needs to be activated by admin
-        };
+       var user = new User
+{
+    Username = registerDto.Username,
+    PasswordHash = PasswordHelper.HashPassword(registerDto.Password),
+    FirstName = registerDto.FirstName,
+    LastName = registerDto.LastName,
+    Email = registerDto.Email,
+    CNP = registerDto.CNP,
+    City = registerDto.City,
+    BirthDate = DateTime.SpecifyKind(registerDto.BirthDate, DateTimeKind.Utc), // Ensure UTC format
+    PhoneNumber = registerDto.PhoneNumber,
+    IsActive = false // User needs to be activated by admin
+};
         
         await _context.Users.AddAsync(user);
         await _context.SaveChangesAsync();

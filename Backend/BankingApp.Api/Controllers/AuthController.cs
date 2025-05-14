@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using BankingApp.Api.DTOs;
 using BankingApp.Api.Services;
+using BankingApp.Api.Helpers;
 
 namespace BankingApp.Api.Controllers;
 
@@ -9,10 +10,12 @@ namespace BankingApp.Api.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
+    private readonly JwtHelper _jwtHelper;
     
-    public AuthController(IAuthService authService)
+    public AuthController(IAuthService authService, JwtHelper jwtHelper)
     {
         _authService = authService;
+        _jwtHelper = jwtHelper;
     }
     
     [HttpPost("login")]
@@ -45,5 +48,32 @@ public class AuthController : ControllerBase
             return BadRequest(new { message });
             
         return Ok(new { message });
+    }
+    
+    // Development-only endpoint to bypass password verification
+    [HttpPost("devlogin")]
+    public async Task<IActionResult> DevLogin()
+    {
+        // Find demo user
+        var user = await _authService.GetUserByIdAsync(1);
+        
+        if (user == null)
+            return Unauthorized(new { message = "Demo user not found" });
+            
+        var token = _jwtHelper.GenerateToken(user);
+            
+        return Ok(new { 
+            token, 
+            user = new {
+                id = user.Id,
+                username = user.Username,
+                firstName = user.FirstName,
+                lastName = user.LastName,
+                email = user.Email,
+                isActive = user.IsActive,
+                phoneNumber = user.PhoneNumber,
+                city = user.City,
+            } 
+        });
     }
 }

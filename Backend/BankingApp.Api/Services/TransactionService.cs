@@ -142,6 +142,33 @@ public class TransactionService : ITransactionService
         if (createTransactionDto.Amount > fromAccount.SpendingLimit)
             return (false, "Transaction exceeds daily spending limit", null);
             
+        // Calculate converted amount if currencies are different
+        decimal convertedAmount = createTransactionDto.Amount;
+        
+        if (fromAccount.Currency != toAccount.Currency)
+        {
+            // Apply conversion rates
+            // 1 USD = 4 RON, 1 EUR = 5 RON
+            
+            // First convert source amount to RON (if not already RON)
+            decimal amountInRON = fromAccount.Currency switch
+            {
+                "USD" => createTransactionDto.Amount * 4,
+                "EUR" => createTransactionDto.Amount * 5,
+                "RON" => createTransactionDto.Amount,
+                _ => createTransactionDto.Amount
+            };
+            
+            // Then convert from RON to destination currency
+            convertedAmount = toAccount.Currency switch
+            {
+                "USD" => amountInRON / 4,
+                "EUR" => amountInRON / 5,
+                "RON" => amountInRON,
+                _ => amountInRON
+            };
+        }
+        
         // Create transaction
         var transaction = new Transaction
         {
@@ -152,13 +179,15 @@ public class TransactionService : ITransactionService
             Amount = createTransactionDto.Amount,
             Currency = createTransactionDto.Currency,
             Type = "Transfer",
-            Note = createTransactionDto.Note,
+            Note = createTransactionDto.Note ?? 
+                   $"Transfer from {fromAccount.Currency} to {toAccount.Currency}" + 
+                   (fromAccount.Currency != toAccount.Currency ? $" (Conversion: {createTransactionDto.Amount} {fromAccount.Currency} => {convertedAmount:F2} {toAccount.Currency})" : ""),
             Status = "Completed"
         };
         
         // Update balances
         fromAccount.Balance -= createTransactionDto.Amount;
-        toAccount.Balance += createTransactionDto.Amount;
+        toAccount.Balance += convertedAmount;  // Use the converted amount
         
         fromAccount.UpdatedAt = DateTime.UtcNow;
         toAccount.UpdatedAt = DateTime.UtcNow;

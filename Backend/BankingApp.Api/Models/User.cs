@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 namespace BankingApp.Api.Models;
 
 public class User
@@ -11,7 +11,7 @@ public class User
     public string Username { get; set; } = string.Empty;
     
     [Required]
-    [MaxLength(100)]
+    [Column(TypeName = "text")]
     public string PasswordHash { get; set; } = string.Empty;
     
     [Required]

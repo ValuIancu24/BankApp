@@ -19,6 +19,22 @@ const authService = {
     }
   },
 
+  // Development-only login that bypasses password verification
+  devLogin: async () => {
+    try {
+      const response = await api.post('/auth/devlogin');
+      
+      // Store the token in localStorage for persistence across page refreshes
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+      }
+      
+      return response.data;
+    } catch (error) {
+      throw new Error('Development login failed');
+    }
+  },
+
   // Register function creates a new user account
   register: async (userData) => {
     try {
@@ -34,15 +50,14 @@ const authService = {
     localStorage.removeItem('token');
   },
 
-  // Gets current user data from the token (simplified version)
-  getCurrentUser: () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      // In a real app, you'd decode the JWT token here
-      // For now, we'll return a simple object
-      return { token };
+  // Gets current user data from the token
+  getCurrentUser: async () => {
+    try {
+      const response = await api.get('/user/me');
+      return response.data;
+    } catch (error) {
+      throw new Error('Failed to get user data');
     }
-    return null;
   }
 };
 

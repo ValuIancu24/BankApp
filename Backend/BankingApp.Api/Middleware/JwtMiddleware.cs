@@ -22,7 +22,15 @@ public class JwtMiddleware
         var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
         
         if (token != null)
+        {
+            Console.WriteLine($"JWT Token received: {token.Substring(0, Math.Min(20, token.Length))}...");
             await AttachUserToContext(context, dbContext, token);
+        }
+        else
+        {
+            // Log when no token is found
+            Console.WriteLine($"No JWT token in request to {context.Request.Path}");
+        }
             
         await _next(context);
     }
@@ -49,14 +57,24 @@ public class JwtMiddleware
             var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "nameid").Value);
             
             // Attach user to context
-            context.Items["User"] = await dbContext.Users
+            var user = await dbContext.Users
                 .Include(u => u.Accounts)
                 .FirstOrDefaultAsync(u => u.Id == userId);
+                
+            if (user != null)
+            {
+                context.Items["User"] = user;
+                Console.WriteLine($"User authenticated: {user.Username} (ID: {user.Id})");
+            }
+            else
+            {
+                Console.WriteLine($"User with ID {userId} not found in database");
+            }
         }
-        catch
+        catch (Exception ex)
         {
-            // Do nothing if validation fails
-            // User is not attached to context
+            // Log validation errors
+            Console.WriteLine($"Token validation failed: {ex.Message}");
         }
     }
 }

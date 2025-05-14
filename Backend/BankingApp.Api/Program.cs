@@ -77,7 +77,10 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
-app.UseHttpsRedirection();
+// REMOVED: app.UseHttpsRedirection(); 
+// This line is removed to prevent HTTP to HTTPS redirects
+
+// Enable CORS before authorization middleware
 app.UseCors();
 
 // Add JWT middleware
@@ -87,5 +90,23 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Seed database data
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<ApplicationDbContext>();
+        await DataSeeder.SeedData(context);
+        Console.WriteLine("Database seeded successfully.");
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while seeding the database.");
+        Console.WriteLine($"Error seeding database: {ex.Message}");
+    }
+}
 
 app.Run();

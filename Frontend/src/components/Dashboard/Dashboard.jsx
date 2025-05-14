@@ -4,6 +4,7 @@ import accountService from '../../services/accountService';
 import AccountOverview from './AccountOverview';
 import TransactionHistory from './TransactionHistory';
 import TransferMoney from './TransferMoney';
+import CreateAccount from './CreateAccount';
 import Header from '../Common/Header';
 
 const Dashboard = () => {
@@ -13,6 +14,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showTransferModal, setShowTransferModal] = useState(false);
+  const [showCreateAccountModal, setShowCreateAccountModal] = useState(false);
 
   // Fetch user accounts when component mounts
   useEffect(() => {
@@ -34,10 +36,11 @@ const Dashboard = () => {
     }
   };
 
-  // Handle successful transactions by refreshing account data
-  const handleTransactionSuccess = () => {
+  // Handle successful transactions/account creation by refreshing account data
+  const handleSuccess = () => {
     fetchAccounts();
     setShowTransferModal(false);
+    setShowCreateAccountModal(false);
   };
 
   if (loading) return <div className="text-center p-4">Loading...</div>;
@@ -54,12 +57,19 @@ const Dashboard = () => {
             Welcome to Your BankApp Dashboard
           </h1>
           
-          <div className="mt-4">
+          <div className="mt-4 space-x-4">
             <button
               onClick={() => setShowTransferModal(true)}
               className="btn-primary"
             >
               Transfer Money
+            </button>
+            
+            <button
+              onClick={() => setShowCreateAccountModal(true)}
+              className="btn-primary"
+            >
+              Create Account
             </button>
           </div>
 
@@ -127,7 +137,15 @@ const Dashboard = () => {
         <TransferMoney
           accounts={accounts}
           onClose={() => setShowTransferModal(false)}
-          onSuccess={handleTransactionSuccess}
+          onSuccess={handleSuccess}
+        />
+      )}
+
+      {/* Create account modal */}
+      {showCreateAccountModal && (
+        <CreateAccount
+          onClose={() => setShowCreateAccountModal(false)}
+          onSuccess={handleSuccess}
         />
       )}
     </div>
