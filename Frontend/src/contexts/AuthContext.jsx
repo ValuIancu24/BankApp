@@ -4,11 +4,23 @@ import authService from '../services/authService';
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // DEVELOPMENT MODE: Force authentication to be true
+  const [user, setUser] = useState({ 
+    id: 1, 
+    username: 'testuser', 
+    firstName: 'Test', 
+    lastName: 'User',
+    email: 'test@example.com',
+    isActive: true,
+    phoneNumber: '0712345678',
+    city: 'Craiova'
+  });
+  const [loading, setLoading] = useState(false);
   const [authError, setAuthError] = useState(null);
 
   useEffect(() => {
+    // Authentication check disabled for development
+    /*
     const initAuth = async () => {
       const token = localStorage.getItem('token');
       if (token) {
@@ -24,38 +36,36 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     };
     initAuth();
+    */
+    
+    // Store fake user data in localStorage so Profile component can access it
+    localStorage.setItem('userData', JSON.stringify({ 
+      id: 1, 
+      username: 'testuser', 
+      firstName: 'Test', 
+      lastName: 'User',
+      email: 'test@example.com',
+      isActive: true,
+      phoneNumber: '0712345678',
+      city: 'Craiova'
+    }));
+    
+    setLoading(false);
   }, []);
 
   const login = async (username, password) => {
-    try {
-      setAuthError(null);
-      const response = await authService.login(username, password);
-      if (response && response.token) {
-        const userData = await authService.getCurrentUser();
-        setUser(userData);
-        return true;
-      }
-      return false;
-    } catch (error) {
-      setAuthError(error.message || 'Login failed');
-      return false;
-    }
+    // Always return successful login for development
+    return true;
   };
 
   const logout = () => {
-    authService.logout();
-    setUser(null);
+    // No real logout in development mode
+    console.log('Logout clicked - disabled in development mode');
   };
 
   const register = async (userData) => {
-    try {
-      setAuthError(null);
-      await authService.register(userData);
-      return true;
-    } catch (error) {
-      setAuthError(error.message || 'Registration failed');
-      return false;
-    }
+    // Always return successful registration for development
+    return true;
   };
 
   const value = {
@@ -65,7 +75,7 @@ export const AuthProvider = ({ children }) => {
     logout,
     register,
     authError,
-    isAuthenticated: !!user
+    isAuthenticated: true  // Force this to always be true for development
   };
 
   return (
