@@ -26,7 +26,7 @@ BankingApp is a comprehensive online banking solution that allows users to manag
 ### DevOps
 - **CI/CD**: GitHub Actions
 - **Source Control**: Git
-- **Containerization**: Ready for Docker (optional)
+- **Containerization**: Ready for Docker 
 
 ## ✨ Features
 
@@ -71,3 +71,10 @@ BankingApp is a comprehensive online banking solution that allows users to manag
    ```bash
    git clone https://github.com/yourusername/bankingapp.git
    cd bankingapp
+
+2. Update the database connection string in `Backend/BankingApp.Api/appsettings.json` with your PostgreSQL credentials
+
+3. Run the migrations to create the database
+```bash
+cd Backend/BankingApp.Api
+dotnet ef database update
