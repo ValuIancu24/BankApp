@@ -79,45 +79,60 @@ BankingApp is a comprehensive online banking solution that allows users to manag
 cd Backend/BankingApp.Api
 dotnet ef database update
 
-4. Backend Setup
+🎨 Frontend Setup
+Navigate to the frontend directory:
 
-Start the backend server
+bash
+Copy
+Edit
+cd Frontend
+Install dependencies:
 
-bashdotnet run
-Frontend Setup
+bash
+Copy
+Edit
+npm install
+Start the development server:
 
-Navigate to the frontend directory
-
-bashcd Frontend
-
-Install dependencies
-
-bashnpm install
-
-Start the development server
-
-bashnpm run dev
-
-The application will be available at http://localhost:5173
+bash
+Copy
+Edit
+npm run dev
+The application will be available at:
+👉 http://localhost:5173
 
 🧪 Testing
 Backend Tests
-bashcd Backend/BankingApp.Tests
+bash
+Copy
+Edit
+cd Backend/BankingApp.Tests
 dotnet test
 Frontend Tests
-bashcd Frontend
+bash
+Copy
+Edit
+cd Frontend
 npm test
 🌐 API Documentation
 The API follows RESTful conventions with the following main endpoints:
 
-/api/auth - Authentication endpoints (login, register)
-/api/user - User profile management
-/api/account - Account operations
-/api/transaction - Transaction operations
-/api/billpayment - Bill payment endpoints
+/api/auth – Authentication (login, register)
 
-Detailed API documentation is available through the Swagger UI when running the application in development mode.
+/api/user – User profile management
+
+/api/account – Account operations
+
+/api/transaction – Transaction operations
+
+/api/billpayment – Bill payment endpoints
+
+📘 Detailed API documentation is available via Swagger UI when the backend is running in development mode.
+
 📁 Project Structure
+csharp
+Copy
+Edit
 BankingApp/
 ├── Backend/
 │   └── BankingApp.Api/
@@ -140,36 +155,48 @@ BankingApp/
 └── .github/
     └── workflows/          # CI/CD workflows
 🔐 Authentication Flow
-
 User registers or logs in through the frontend
+
 Backend validates credentials and issues a JWT token
-Token is stored in local storage and included in the Authorization header
-Backend middleware validates the token for protected routes
-Token expiration triggers automatic logout
+
+Token is stored in localStorage and sent with the Authorization header
+
+Backend middleware validates the token on protected routes
+
+Expired token triggers automatic logout
 
 💰 Transaction Processing
-Transactions follow this workflow:
-
 User initiates a transaction (transfer, deposit, withdrawal, bill payment)
-Backend validates the transaction (sufficient funds, limits, etc.)
+
+Backend validates the transaction (e.g., funds, limits)
+
 Transaction is recorded in the database
+
 Account balances are updated
-Currency conversion is applied if necessary
-Confirmation is sent to the user
+
+Currency conversion applied if needed
+
+Confirmation sent to the user
 
 👥 Contributors
-
 Your Name
+
 Your Friend's Name
 
 📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
-🔮 Future Enhancements
+This project is licensed under the MIT License – see the LICENSE file for details.
 
-Mobile application using React Native
-Two-factor authentication
-PDF statement generation
-Scheduled/recurring payments
-Savings goals and financial planning tools
-Push notifications for account activities
-Dark mode theme
+🔮 Future Enhancements
+📱 Mobile application using React Native
+
+🔐 Two-factor authentication
+
+🧾 PDF statement generation
+
+⏰ Scheduled/recurring payments
+
+🎯 Savings goals and financial planning tools
+
+📲 Push notifications for account activities
+
+🌙 Dark mode theme
