@@ -82,7 +82,7 @@ dotnet ef database update
 ### Frontend Setup
 -Navigate to the frontend directory:
 
-bash
+-bash
 -Copy
 -Edit
 -cd Frontend
@@ -94,38 +94,38 @@ bash
 -npm install
 -Start the development server:
 
-bash
-Copy
-Edit
-npm run dev
-The application will be available at:
-👉 http://localhost:5173
+-bash
+-Copy
+-Edit
+-npm run dev
+-The application will be available at:
+### http://localhost:5173
 
 ### Testing
-Backend Tests
-bash
-Copy
-Edit
-cd Backend/BankingApp.Tests
-dotnet test
-Frontend Tests
-bash
-Copy
-Edit
-cd Frontend
-npm test
-## API Documentation
+-Backend Tests
+-bash
+-Copy
+-Edit
+-cd Backend/BankingApp.Tests
+-dotnet test
+### Frontend Tests
+-bash
+-Copy
+-Edit
+-cd Frontend
+-npm test
+### API Documentation
 The API follows RESTful conventions with the following main endpoints:
 
-/api/auth – Authentication (login, register)
+-/api/auth – Authentication (login, register)
 
-/api/user – User profile management
+-/api/user – User profile management
 
-/api/account – Account operations
+-/api/account – Account operations
 
-/api/transaction – Transaction operations
+-/api/transaction – Transaction operations
 
-/api/billpayment – Bill payment endpoints
+-/api/billpayment – Bill payment endpoints
 
 ## Detailed API documentation is available via Swagger UI when the backend is running in development mode.
 
@@ -154,49 +154,29 @@ BankingApp/
 │       └── utils/          # Utility functions
 └── .github/
     └── workflows/          # CI/CD workflows
-🔐 Authentication Flow
-User registers or logs in through the frontend
+### Authentication Flow
+-User registers or logs in through the frontend
 
-Backend validates credentials and issues a JWT token
+-Backend validates credentials and issues a JWT token
 
-Token is stored in localStorage and sent with the Authorization header
+-Token is stored in localStorage and sent with the Authorization header
 
-Backend middleware validates the token on protected routes
+-Backend middleware validates the token on protected routes
 
-Expired token triggers automatic logout
+-Expired token triggers automatic logout
 
-💰 Transaction Processing
-User initiates a transaction (transfer, deposit, withdrawal, bill payment)
+### Transaction Processing
+-User initiates a transaction (transfer, deposit, withdrawal, bill payment)
 
-Backend validates the transaction (e.g., funds, limits)
+-Backend validates the transaction (e.g., funds, limits)
 
-Transaction is recorded in the database
+-Transaction is recorded in the database
 
-Account balances are updated
+-Account balances are updated
 
-Currency conversion applied if needed
+-Currency conversion applied if needed
 
-Confirmation sent to the user
-
-👥 Contributors
-Your Name
-
-Your Friend's Name
+-Confirmation sent to the user
 
 📄 License
 This project is licensed under the MIT License – see the LICENSE file for details.
-
-🔮 Future Enhancements
-📱 Mobile application using React Native
-
-🔐 Two-factor authentication
-
-🧾 PDF statement generation
-
-⏰ Scheduled/recurring payments
-
-🎯 Savings goals and financial planning tools
-
-📲 Push notifications for account activities
-
-🌙 Dark mode theme
