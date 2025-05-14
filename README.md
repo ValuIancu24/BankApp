@@ -1,155 +1,73 @@
-🌟 Overview
+# BankingApp
+
+A modern full-stack banking application built with ASP.NET Core and React.
+
+## 🌟 Overview
+
 BankingApp is a comprehensive online banking solution that allows users to manage accounts, transfer funds, pay bills, and monitor transaction history. This project demonstrates a fully-functional banking system with secure authentication, real-time balance updates, and intuitive user interface.
-🛠️ Technology Stack
-Backend
 
-Framework: ASP.NET Core 9.0
-ORM: Entity Framework Core 9.0
-Database: PostgreSQL
-Authentication: JWT (JSON Web Tokens)
-Deployment: Azure App Service
+## 🛠️ Technology Stack
 
-Frontend
+### Backend
+- **Framework**: ASP.NET Core 9.0
+- **ORM**: Entity Framework Core 9.0
+- **Database**: PostgreSQL
+- **Authentication**: JWT (JSON Web Tokens)
+- **Deployment**: Azure App Service
 
-Framework: React 18
-Build Tool: Vite
-Styling: Tailwind CSS
-State Management: React Context API
-Routing: React Router 6
-HTTP Client: Axios
+### Frontend
+- **Framework**: React 18
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **State Management**: React Context API
+- **Routing**: React Router 6
+- **HTTP Client**: Axios
 
-DevOps
+### DevOps
+- **CI/CD**: GitHub Actions
+- **Source Control**: Git
+- **Containerization**: Ready for Docker (optional)
 
-CI/CD: GitHub Actions
-Source Control: Git
-Containerization: Ready for Docker (optional)
+## ✨ Features
 
-✨ Features
-User Authentication
+### User Authentication
+- User registration with personal details
+- Secure login with JWT authentication
+- Protected routes and API endpoints
+- Profile management
 
-User registration with personal details
-Secure login with JWT authentication
-Protected routes and API endpoints
-Profile management
+### Account Management
+- View all accounts with balances
+- Create new accounts in different currencies (RON, USD, EUR)
+- Set and customize spending limits
+- Monitor daily withdrawal limits
 
-Account Management
+### Transactions
+- Transfer funds between accounts (including currency conversion)
+- View detailed transaction history
+- Mark important transactions for easy reference
+- Filter and sort transactions
 
-View all accounts with balances
-Create new accounts in different currencies (RON, USD, EUR)
-Set and customize spending limits
-Monitor daily withdrawal limits
+### Bill Payments
+- Pay bills for various services (utilities, internet, phone, etc.)
+- Store payment history and receipts
+- Schedule future payments
 
-Transactions
+### Security
+- Encrypted passwords and sensitive data
+- JWT authentication with token expiration
+- Middleware for secure API access
+- Protection against common web vulnerabilities
 
-Transfer funds between accounts (including currency conversion)
-View detailed transaction history
-Mark important transactions for easy reference
-Filter and sort transactions
+## 🚀 Installation and Setup
 
-Bill Payments
+### Prerequisites
+- [.NET 9 SDK](https://dotnet.microsoft.com/download)
+- [Node.js](https://nodejs.org/) (v18+)
+- [PostgreSQL](https://www.postgresql.org/download/)
 
-Pay bills for various services (utilities, internet, phone, etc.)
-Store payment history and receipts
-Schedule future payments
-
-Security
-
-Encrypted passwords and sensitive data
-JWT authentication with token expiration
-Middleware for secure API access
-Protection against common web vulnerabilities
-
-🚀 Installation and Setup
-Prerequisites
-
-.NET 9 SDK
-Node.js (v18+)
-PostgreSQL
-
-Backend Setup
-
-Clone the repository
-bashgit clone https://github.com/yourusername/bankingapp.git
-cd bankingapp
-
-Update the database connection string in Backend/BankingApp.Api/appsettings.json with your PostgreSQL credentials
-Run the migrations to create the database
-bashcd Backend/BankingApp.Api
-dotnet ef database update
-
-Start the backend server
-bashdotnet run
-
-
-Frontend Setup
-
-Navigate to the frontend directory
-bashcd Frontend
-
-Install dependencies
-bashnpm install
-
-Start the development server
-bashnpm run dev
-
-The application will be available at http://localhost:5173
-
-🧪 Testing
-Backend Tests
-bashcd Backend/BankingApp.Tests
-dotnet test
-Frontend Tests
-bashcd Frontend
-npm test
-🌐 API Documentation
-The API follows RESTful conventions with the following main endpoints:
-
-/api/auth - Authentication endpoints (login, register)
-/api/user - User profile management
-/api/account - Account operations
-/api/transaction - Transaction operations
-/api/billpayment - Bill payment endpoints
-
-Detailed API documentation is available through the Swagger UI when running the application in development mode.
-📁 Project Structure
-BankingApp/
-├── Backend/
-│   └── BankingApp.Api/
-│       ├── Controllers/    # API endpoints
-│       ├── Models/         # Database entities
-│       ├── DTOs/           # Data transfer objects
-│       ├── Services/       # Business logic
-│       ├── Repositories/   # Data access layer
-│       ├── Data/           # Database context
-│       ├── Migrations/     # EF Core migrations
-│       ├── Middleware/     # Custom middleware
-│       └── Helpers/        # Utility classes
-├── Frontend/
-│   ├── public/             # Static assets
-│   └── src/
-│       ├── components/     # React components
-│       ├── contexts/       # React contexts
-│       ├── services/       # API service layers
-│       └── utils/          # Utility functions
-└── .github/
-    └── workflows/          # CI/CD workflows
-🔐 Authentication Flow
-
-User registers or logs in through the frontend
-Backend validates credentials and issues a JWT token
-Token is stored in local storage and included in the Authorization header
-Backend middleware validates the token for protected routes
-Token expiration triggers automatic logout
-
-💰 Transaction Processing
-Transactions follow this workflow:
-
-User initiates a transaction (transfer, deposit, withdrawal, bill payment)
-Backend validates the transaction (sufficient funds, limits, etc.)
-Transaction is recorded in the database
-Account balances are updated
-Currency conversion is applied if necessary
-Confirmation is sent to the user
-
-📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
+### Backend Setup
+1. Clone the repository
+   ```bash
+   git clone https://github.com/yourusername/bankingapp.git
+   cd bankingapp
