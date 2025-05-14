@@ -9,6 +9,7 @@ namespace BankingApp.Api.Helpers;
 public class JwtHelper
 {
     private readonly IConfiguration _configuration;
+   
     
     public JwtHelper(IConfiguration configuration)
     {
